@@ -66,9 +66,18 @@ namespace LINQintro
             }
         }
 
+        private void WhereDemo()
+        {
+            var result = employeeRepository.GetEmployees().Where(x => x.FullName == "Sam" && x.Salary > 7000).Select(x => new { Name = x.FullName, Salary = x.Salary });
+            foreach (var x in result)
+            {
+                Console.WriteLine(x.Name + '\t' + x.Salary);
+            }
+        }
+
         public void Run()
         {
-            OrderByDemo();
+            WhereDemo();
         }
     }
 }
