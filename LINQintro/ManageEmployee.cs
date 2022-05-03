@@ -75,6 +75,36 @@ namespace LINQintro
             }
         }
 
+        private void GroupByDemo()
+        {
+            var result = employeeRepository.GetEmployees().GroupBy(x => x.Department);
+            foreach (var group in result)
+            {
+                Console.WriteLine($"Department: {group.Key}");
+                foreach(var emp in group)
+                {
+                    Console.WriteLine($"Employee: {emp.FullName}");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private void AggregationDemo()
+        {
+            var result = employeeRepository.GetEmployees().GroupBy(x => x.Department).Select(x => new
+            {
+                Department = x.Key,
+                Salaries = x.Sum(x => x.Salary),
+                AvgSalary = Math.Round(x.Average(x => x.Salary),2)
+
+            }).OrderByDescending(x => x.Department);
+
+            foreach(var group in result)
+            {
+                Console.WriteLine($"Dept: {group.Department}  | Total Salaries: {group.Salaries}    | Average: {group.AvgSalary}");
+            }
+        }
+
         private void AnyAllDemo()
         {
             var result = (from emp in employeeRepository.GetEmployees()
@@ -83,7 +113,7 @@ namespace LINQintro
         }
         public void Run()
         {
-            AnyAllDemo();
+            AggregationDemo();
         }
     }
 }
