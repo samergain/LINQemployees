@@ -75,9 +75,15 @@ namespace LINQintro
             }
         }
 
+        private void AnyAllDemo()
+        {
+            var result = (from emp in employeeRepository.GetEmployees()
+                         select emp).Any(x => x.Salary > 8000);
+            Console.WriteLine(result);
+        }
         public void Run()
         {
-            WhereDemo();
+            AnyAllDemo();
         }
     }
 }
